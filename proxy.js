@@ -152,7 +152,11 @@ const Proxy = function(target, handler) {
   }
 
   // The Proxy polyfill cannot handle adding new properties. Seal the target and proxy.
-  Object.seal(target);
+  //
+  // NOTE: Sealing the target was removed by Schnur. We don't want to throw an
+  // error if a new property is defined on the target after a proxy is created.
+  // That behavior makes using a proxy extremely dangerous for development in
+  // our situation.
   Object.seal(proxy);
 
   return proxy;  // nb. if isMethod is true, proxy != this
